@@ -1,0 +1,30 @@
+{% extends "sentimental/base.html" %}
+
+{% block extracss %}
+    .project {
+        padding: 10px;
+        margin: 10px 0;
+        background: #eee;
+    }
+{% endblock %}
+
+{% block extraheader %}
+    <h2><a href="{% url sentimental_register %}">Register new project</a></h2>
+{% endblock %}
+
+{% block content %}
+    <h2>Current projects</h2>
+    
+    {% for project in projects %}
+        <div class="project">
+            <h2><a href="{% url project_detail project.id %}">{{ project.name }}</a></h2>
+            <p>{{ project.description }}</p>
+            <ul>
+                <li><a href="{% url sentimental_project_train project.id %}">Train this dataset</a></li>
+                {% if project.has_ran %}
+                    <li><a href="">View sentiment results</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock %}

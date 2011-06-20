@@ -1,0 +1,35 @@
+{% extends "sentimental/base.html" %}
+
+{% block extracss %}
+    header {
+        display: none
+    }
+{% endblock %}
+
+{% block content %}
+    <div id="sentences">
+        
+    </div>
+    
+    <script>
+        $(document).ready(function() {
+            function loadData() {
+                $.post('{% url sentimental_trainer_fetch %}', {'project': {{ project.id }}}, function(data) {
+                    $("#sentences").append(data);
+                });
+            }
+            
+            setInterval(loadData, 3000);
+            loadData();
+            
+            $('.sentence a').live('click', function(event) {
+                event.preventDefault();
+                rel = $(this).attr('rel');
+                sentence = $(this).parent().parent().parent().attr('rel');
+                $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': rel}, function(data) {
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <title>Sentimental - Sentiment Analysis in Python</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                font-size: 90%;
+            }
+            section, header, article, aside, footer {
+                display: block;
+            }
+            #container {
+                width: 980px;
+                margin: 20px auto;
+            }
+            #container header h1 {
+                font-size: 30px;
+                color: orange;
+            }
+            {% block extracss %}
+                
+            {% endblock %}
+        </style>
+    </head>
+    
+    <body>
+        <div id="container">
+            <header>
+                <h1>Sentimental - Sentiment Analysis in Python</h1>
+                {% block extraheader %}
+                    
+                {% endblock %}
+            </header>
+            <section id="content">
+                {% block content %}
+                    
+                {% endblock %}
+            </section>
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    </body>
+</html>
