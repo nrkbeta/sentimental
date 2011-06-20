@@ -1,0 +1,8 @@
+{% extends "sentimental/base.html" %}
+
+{% block content %}
+    <h2>Details for project: {{ project.name }}</h2>
+    <p>Sentences: {{ project.sentences.count }}</p>
+    <p>Words trained: {{ trained }}</p>
+    <p>Done training: {{ project.has_ran|yesno|title }} » <a href="{% url sentimental_trainer project.id %}">Train this dataset</a></p>
+{% endblock %}

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <title>Sentimental - Sentiment Analysis in Python</title>
+        <title>Sentimental - Sentiment Analysis</title>
         <style>
             body {
                 margin: 0;
@@ -17,20 +17,26 @@
                 width: 980px;
                 margin: 20px auto;
             }
-            #container header h1 {
+            #container header h1 a {
                 font-size: 30px;
                 color: orange;
+                text-decoration: none;
             }
             {% block extracss %}
                 
             {% endblock %}
         </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        
     </head>
     
     <body>
+        {% block before_container %}
+            
+        {% endblock %}
         <div id="container">
             <header>
-                <h1>Sentimental - Sentiment Analysis in Python</h1>
+                <h1><a href="{% url sentimental_index %}">Sentimental - Sentiment Analysis</a></h1>
                 {% block extraheader %}
                     
                 {% endblock %}
@@ -41,6 +47,5 @@
                 {% endblock %}
             </section>
         </div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     </body>
 </html>

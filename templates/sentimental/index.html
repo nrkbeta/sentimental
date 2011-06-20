@@ -20,7 +20,7 @@
             <h2><a href="{% url sentimental_project_detail project.id %}">{{ project.name }}</a></h2>
             <p>{{ project.description }}</p>
             <ul>
-                <li><a href="{% url sentimental_project_train project.id %}">Train this dataset</a></li>
+                <li><a href="{% url sentimental_trainer project.id %}">Train this dataset</a></li>
                 {% if project.has_ran %}
                     <li><a href="">View sentiment results</a></li>
                 {% endif %}

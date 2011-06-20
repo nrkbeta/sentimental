@@ -17,6 +17,7 @@ class Sentence(models.Model):
     sentence = models.TextField()
     classification = models.CharField(blank=True, max_length=5, null=True)
     trained = models.NullBooleanField(default=False, null=True, blank=True)
+    guessed = models.BooleanField(default=False)
     
     def __unicode__(self):
         return self.sentence[:100]

@@ -4,9 +4,103 @@
     header {
         display: none
     }
+    body {
+        background: #f9f9f9;
+    }
+    #title, .count {
+        position: absolute;
+        top: 0;
+        padding: 20px;
+        padding-bottom: 30px;
+        background: #eee;
+        border: 1px solid #ddd;
+        padding-right: 300px;
+    }
+    #title {
+        left: 0;
+    }
+    body div.count {
+        right: 0px;
+        display: none;
+        background: transparent;
+        border: none;
+        padding-right: 10px;
+        width: 70px;
+    }
+    .counter {
+    }
+    #title h1 {
+        color: #555;
+        font-weight: normal;
+    }
+    #sentences {
+        height: 200px;
+        position: absolute;
+        width: 960px;
+        margin-left: -480px;
+        margin-top: -120px;
+        top: 50%;
+        left: 50%;
+    }
+    .sentence {
+        height: 160px;
+        padding: 20px;
+        border: 10px solid #999;
+        
+        margin: 10px 0;
+        background: #eee;
+    }
+    .sentence ul li {
+        list-style: none;
+        padding-right: 10px;
+        display: inline;
+    }
+    .sentence ul {
+        text-align: right;
+    }
+    .sentence ul a {
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+        opacity: 0.7;
+    }
+    .sentence p {
+        font-size: 25px;
+        height: 80px;
+        line-height: 1.5;
+    }
+    .sentence ul a:hover {
+        opacity: 1;
+    }
+    .negative {
+        background: red;
+        
+        border: 5px solid #b1002e;
+        
+    }
+    .neutral {
+        background: orange;
+        border: 5px solid #b17000;
+        
+    }
+    .positive {
+        background: green;
+        border: 5px solid #1e4b06;
+    }
+{% endblock %}
+
+{% block before_container %}
+    <div id="title">
+        <h1>Training the Bayes for the {{ project.name }} project</h1>
+        <a href="{% url sentimental_index %}">« Back to overview</a>
+    </div>
+    <div class="count"><span class="counter"></span> besvart</div>
+    
 {% endblock %}
 
 {% block content %}
+    
     <div id="sentences">
         
     </div>
@@ -18,8 +112,8 @@
                     $("#sentences").append(data);
                 });
             }
-            
-            setInterval(loadData, 3000);
+            var counter = 1;
+            //setInterval(loadData, 3000);
             loadData();
             
             $('.sentence a').live('click', function(event) {
@@ -28,7 +122,12 @@
                 sentence = $(this).parent().parent().parent().attr('rel');
                 $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': rel}, function(data) {
                     console.log(data);
+                    counter++;
                 });
+                $(this).parent().parent().parent().remove();
+                loadData();
+                $(".count").show();
+                $(".counter").html(''+counter);
             });
         });
     </script>

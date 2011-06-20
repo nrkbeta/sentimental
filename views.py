@@ -23,6 +23,7 @@ def register(request):
             for line in file.split('\n'):
                 sentence = Sentence()
                 sentence.project = project
+                sentence.guessed = False
                 line = line.split('$$$')
                 if len(line) == 1:
                     sentence.metadata = None
@@ -40,7 +41,7 @@ def register(request):
 
 def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
-    return render_to_response('sentimental/project_detail.html', {'project': project})
+    return render_to_response('sentimental/project_detail.html', {'project': project, 'trained': project.sentences.filter(trained=True, classification__isnull=False).count()})
 
 def trainer(request, project_id):
     project = Project.objects.get(id=project_id)
@@ -62,9 +63,9 @@ def trainer_fetch(request):
     <div class="sentence" rel="%d">
         <p>%s</p>
         <ul>
-            <li><a class="negative" href="#" rel="0">Negative</a></li>
-            <li><a class="neutral" href="#" rel="1">Neutral</a></li>
             <li><a class="positive" href="#" rel="2">Positive</a></li>
+            <li><a class="neutral" href="#" rel="1">Neutral</a></li>
+            <li><a class="negative" href="#" rel="0">Negative</a></li>
         </ul>
     </div>
     ''' % (sentence.id, sentence.sentence)
