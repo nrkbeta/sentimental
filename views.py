@@ -66,6 +66,7 @@ def trainer_fetch(request):
             <li><a class="positive" href="#" rel="2">Positive</a></li>
             <li><a class="neutral" href="#" rel="1">Neutral</a></li>
             <li><a class="negative" href="#" rel="0">Negative</a></li>
+            <li><a class="close" href="#" rel="close" title="Next">I don't know</a></li>
         </ul>
     </div>
     ''' % (sentence.id, sentence.sentence)

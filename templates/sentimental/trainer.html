@@ -7,19 +7,27 @@
     body {
         background: #f9f9f9;
     }
-    #title, .count {
+    #title, .count, .help {
         position: absolute;
-        top: 0;
         padding: 20px;
         padding-bottom: 30px;
         background: #eee;
         border: 1px solid #ddd;
-        padding-right: 300px;
     }
     #title {
+        top: 0;
         left: 0;
+        right: 0;
+        text-align: center;
+    }
+    .help {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
     }
     body div.count {
+        top: 0;
         right: 0px;
         display: none;
         background: transparent;
@@ -89,6 +97,10 @@
         background: green;
         border: 5px solid #1e4b06;
     }
+    .close {
+        background: black;
+        border: 5px solid #333;
+    }
 {% endblock %}
 
 {% block before_container %}
@@ -96,8 +108,10 @@
         <h1>Training the Bayes for the {{ project.name }} project</h1>
         <a href="{% url sentimental_index %}">« Back to overview</a>
     </div>
-    <div class="count"><span class="counter"></span> besvart</div>
-    
+    <div class="count"><span class="counter"></span> answered</div>
+    <div class="help">
+        <p>Answer using the buttons. If you don't know the answer, press the <a class="close" style="color: white; padding: 10px;">I don't know</a> button</p>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -121,6 +135,10 @@
                 loadData();
                 event.preventDefault();
                 rel = $(this).attr('rel');
+                if (rel == 'close') {
+                    $(this).parent().parent().parent().remove();
+                    return;
+                }
                 sentence = $(this).parent().parent().parent().attr('rel');
                 $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': rel}, function(data) {
                     console.log(data);
