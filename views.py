@@ -10,6 +10,7 @@ def index(request):
     projects = Project.objects.all().order_by('-id')
     return render_to_response('sentimental/index.html', {'projects': projects})
 
+@csrf_exempt
 def register(request):
     if request.POST:
         form = RegistrationForm(request.POST)
