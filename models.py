@@ -13,6 +13,7 @@ class Project(models.Model):
 
 class Sentence(models.Model):
     project = models.ForeignKey(Project, related_name="sentences")
+    metadata = models.TextField(blank=True, null=True)
     sentence = models.TextField()
     classification = models.CharField(blank=True, max_length=5, null=True)
     trained = models.NullBooleanField(default=False, null=True, blank=True)

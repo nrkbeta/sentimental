@@ -13,19 +13,26 @@ def index(request):
 @csrf_exempt
 def register(request):
     if request.POST:
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             project = Project()
             project.name = form.cleaned_data['name']
             project.description = form.cleaned_data['description']
             project.save()
-            for line in form.cleaned_data['text'].split('\n'):
-                sentiment = Sentence()
-                sentiment.project = project
-                sentiment.sentence = line
-                sentiment.classification = None
-                sentiment.trained = None
-                sentiment.save()
+            file = form.cleaned_data['file'].read()
+            for line in file.split('\n'):
+                sentence = Sentence()
+                sentence.project = project
+                line = line.split('$$$')
+                if len(line) == 1:
+                    sentence.metadata = None
+                    sentence.sentence = line[0]
+                else:
+                    sentence.metadata = line[0]
+                    sentence.sentence = line[1]
+                sentence.classification = None
+                sentence.trained = None
+                sentence.save()
             return http.HttpResponseRedirect(reverse('sentimental_project_detail', kwargs={'id': project.id}))
     else:
         form = RegistrationForm()
