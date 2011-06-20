@@ -5,7 +5,7 @@
         display: none
     }
     body {
-        background: #f9f9f9;
+        background: #111;
     }
     #title, .count, .help {
         position: absolute;
@@ -123,6 +123,9 @@
     <script>
         $(document).ready(function() {
             function loadData() {
+                if ($(".sentence").length > 3) {
+                    return;
+                }
                 $.post('{% url sentimental_trainer_fetch %}', {'project': {{ project.id }}}, function(data) {
                     $("#sentences").append(data);
                 });

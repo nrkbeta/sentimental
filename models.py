@@ -10,6 +10,9 @@ class Project(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def num_classified(self):
+        return self.sentences.filter(trained=True, classification__isnull=False).count()
 
 class Sentence(models.Model):
     project = models.ForeignKey(Project, related_name="sentences")
@@ -22,12 +25,12 @@ class Sentence(models.Model):
     def __unicode__(self):
         return self.sentence[:100]
     
-    def is_positive(self):
+    def get_classification(self):
         if self.classification == None:
             raise NotClassifiedError()
         if self.classification == 0:
-            return False # Negative
+            return u'negative' # Negative
         if self.classification == 1:
-            return True # Positive
+            return u'neutral' # Neutral
         if self.classification == 2:
-            return None # Neutral
+            return u'positive' # Positive
