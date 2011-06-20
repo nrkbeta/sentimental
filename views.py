@@ -46,7 +46,7 @@ def trainer_register(request):
     sentence.save()
     return http.HttpResponse('')
 
-@csrf_excempt
+@csrf_exempt
 def trainer_fetch(request):
     project = Project.objects.get(id=request.POST.get('project'))
     sentence = project.sentences.exclude(trained=True, classification__isnull=False).order_by('?')[0]
