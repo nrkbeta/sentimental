@@ -34,7 +34,7 @@ def register(request):
                 sentence.classification = None
                 sentence.trained = None
                 sentence.save()
-            return http.HttpResponseRedirect(reverse('sentimental_project_detail', kwargs={'id': project.id}))
+            return http.HttpResponseRedirect(reverse('sentimental_project_detail', kwargs={'project_id': project.id}))
     else:
         form = RegistrationForm()
     return render_to_response('sentimental/register.html', {'form': form})

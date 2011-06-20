@@ -41,6 +41,7 @@
         margin-top: -120px;
         top: 50%;
         left: 50%;
+        overflow: hidden;
     }
     .sentence {
         height: 160px;
@@ -113,10 +114,11 @@
                 });
             }
             var counter = 1;
-            //setInterval(loadData, 3000);
+            setInterval(loadData, 2000);
             loadData();
             
             $('.sentence a').live('click', function(event) {
+                loadData();
                 event.preventDefault();
                 rel = $(this).attr('rel');
                 sentence = $(this).parent().parent().parent().attr('rel');
@@ -125,7 +127,6 @@
                     counter++;
                 });
                 $(this).parent().parent().parent().remove();
-                loadData();
                 $(".count").show();
                 $(".counter").html(''+counter);
             });
