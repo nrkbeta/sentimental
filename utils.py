@@ -17,16 +17,18 @@ class Guesser(object):
     
     def guess(self):
         for sentence in self.project.to_classify():
-            self.data.append(self.bayes.guess(sentence.sentence))
+            data = {'sentence_id': sentence.id}
+            data['guesses'] = self.bayes.guess(sentence.sentence)
+            self.data.append(data)
         return self.data
     
     def best_matches(self):
         if not self.data: return []
         for matches in self.data:
             try:
-                match = sorted(matches, key=lambda x:x[1], reverse=True)[0]
+                matches['guesses'] = sorted(matches['guesses'], key=lambda x:x[1], reverse=True)[0]
             except:
-                match = (None, None)
-            self.best.append(match)
+                matches['guesses'] = (None, None)
+            self.best.append(matches)
         return self.best
             
