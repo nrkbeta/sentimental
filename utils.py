@@ -9,7 +9,7 @@ class Guesser(object):
         self.bayes = Bayes()
         self._train()
         self.data = []
-        self.best_matches = []
+        self.best = []
     
     def _train(self):
         for sentence in self.project.classified():
@@ -24,6 +24,6 @@ class Guesser(object):
         if not self.data: return []
         for matches in self.data:
             match = sorted(matches, key=lambda x:x[1], reverse=True)[0]
-            self.best_matches.append(match)
-        return self.best_matches
+            self.best.append(match)
+        return self.best
             
