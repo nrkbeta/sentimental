@@ -23,7 +23,7 @@ class Guesser(object):
     def best_matches(self):
         if not self.data: return []
         for matches in self.data:
-            match = sorted(match, key=lambda x:x[1], reverse=True)[0]
+            match = sorted(matches, key=lambda x:x[1], reverse=True)[0]
             self.best_matches.append(match)
         return self.best_matches
             
