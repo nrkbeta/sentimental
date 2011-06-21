@@ -13,7 +13,7 @@ class Guesser(object):
     
     def _train(self):
         for sentence in self.project.classified():
-            self.bayes.train(sentence.classification, sentence.sentence)
+            self.bayes.train(sentence.get_classification(), sentence.sentence)
     
     def guess(self):
         for sentence in self.project.to_classify():
