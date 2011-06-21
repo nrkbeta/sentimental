@@ -31,9 +31,9 @@ class Sentence(models.Model):
     def get_classification(self):
         if self.classification == None:
             raise NotClassifiedError()
-        if self.classification == 0:
+        if self.classification == u'0':
             return u'negative' # Negative
-        if self.classification == 1:
+        if self.classification == u'1':
             return u'neutral' # Neutral
-        if self.classification == 2:
+        if self.classification == u'2':
             return u'positive' # Positive
