@@ -29,6 +29,10 @@ class Guesser(object):
                 matches['guesses'] = sorted(matches['guesses'], key=lambda x:x[1], reverse=True)[0]
             except:
                 matches['guesses'] = (None, None)
-            self.best.append(matches)
+            match = {}
+            match['id'] = matches['sentence_id']
+            match['guess'] = matches['guesses'][0]
+            match['certainty'] = matches['guesses'][1]
+            self.best.append(match)
         return self.best
             
