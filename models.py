@@ -11,8 +11,11 @@ class Project(models.Model):
     def __unicode__(self):
         return self.name
     
-    def num_classified(self):
-        return self.sentences.filter(trained=True, classification__isnull=False).count()
+    def classified(self):
+        return self.sentences.filter(trained=True, classification__isnull=False)
+    
+    def to_classify(self):
+        return self.sentences.exclude(trained=True, classification__isnull=False)
 
 class Sentence(models.Model):
     project = models.ForeignKey(Project, related_name="sentences")

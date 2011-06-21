@@ -1,8 +1,29 @@
 from sentimental.models import Sentence, Project
 from reverend.thomas import Bayes
 
-def train_thomas(sentences):
-    guesser = Bayes()
-    for sentence in sentences:
-        guesser.train(sentence.classification, sentence.sentence)
-    return guesser
+
+class Guesser(object):
+    
+    def __init__(self, project):
+        self.project = project
+        self.bayes = Bayes()
+        self._train()
+        self.data = []
+        self.best_matches = []
+    
+    def _train(self):
+        for sentence in self.project.classified():
+            self.bayes.train(sentence.classification, sentence.sentence)
+    
+    def guess(self):
+        for sentence in self.project.to_classify():
+            self.data.append(self.bayes.guess(sentence.sentence))
+        return self.data
+    
+    def best_matches(self):
+        if not self.data: return []
+        for matches in self.data:
+            match = sorted(match, key=lambda x:x[1], reverse=True)[0]
+            self.best_matches.append(match)
+        return self.best_matches
+            
