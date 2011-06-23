@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 
-from sentimental.models import Sentence, Project
+from sentimental.models import Sentence, Project, Classification
 from sentimental.forms import RegistrationForm
 
 def index(request):
@@ -18,6 +18,12 @@ def register(request):
             project = Project()
             project.name = form.cleaned_data['name']
             project.description = form.cleaned_data['description']
+            project.save()
+            for choice in request.POST.getlist('choice'):
+                classification = Classification()
+                classification.name = choice
+                classification.save()
+                project.classifications.add(classification)
             project.save()
             file = form.cleaned_data['file'].read()
             for line in file.split('\n'):
@@ -50,7 +56,7 @@ def trainer(request, project_id):
 @csrf_exempt
 def trainer_register(request):
     sentence = Sentence.objects.get(id=request.POST.get('sentence'))
-    sentence.classification = int(request.POST.get('classification'))
+    sentence.classification_id = int(request.POST.get('classification'))
     sentence.trained = True
     sentence.save()
     return http.HttpResponse('')
@@ -59,15 +65,16 @@ def trainer_register(request):
 def trainer_fetch(request):
     project = Project.objects.get(id=request.POST.get('project'))
     sentence = project.sentences.exclude(trained=True, classification__isnull=False).order_by('?')[0]
+    choices = []
+    for n, choice in enumerate(project.classifications.all()):
+        choices.append('<li><a class="choice_%d" href="#" rel="%d">%s</a></li>' % (n+1, choice.id, choice.name))
     skeleton = '''
     <div class="sentence" rel="%d">
         <p>%s</p>
         <ul>
-            <li><a class="positive" href="#" rel="2">Positive</a></li>
-            <li><a class="neutral" href="#" rel="1">Neutral</a></li>
-            <li><a class="negative" href="#" rel="0">Negative</a></li>
+            %s
             <li><a class="close" href="#" rel="close" title="Next">I don't know</a></li>
         </ul>
     </div>
-    ''' % (sentence.id, sentence.sentence)
+    ''' % (sentence.id, sentence.sentence, "\n".join(choices))
     return http.HttpResponse(skeleton)

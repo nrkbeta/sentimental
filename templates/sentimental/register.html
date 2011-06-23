@@ -10,7 +10,18 @@
     <h2>Register new project</h2>
     <form action="" enctype="multipart/form-data"  method="post">
         {{ form.as_p }}
-        <input type="submit">
+        <div id="choices"></div>
+        <p><a href="#" class="addChoice">+ Add choice</a></p>
+        
+        <p><input type="submit"></p>
     </form>
-    
+    <script>
+        $(document).ready(function() {
+            $('.addChoice').click(function(event) {
+                event.preventDefault();
+                var choice_container = $('#id_choice').parent();
+                $("#choices").append('<p>'+$(choice_container).html()+'</p>');
+            });
+        });
+    </script>
 {% endblock %}
