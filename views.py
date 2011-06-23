@@ -1,4 +1,5 @@
 from django import http
+from django.conf import settings
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +13,8 @@ def index(request):
 
 @csrf_exempt
 def register(request):
+    if not getattr(settings, 'ALLOW_UPLOADS', False):
+        return http.HttpResponse('Uploads not allowed at this time')
     if request.POST:
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
