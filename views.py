@@ -80,9 +80,8 @@ def trainer_fetch(request):
     
     meta = json.loads(sentence.metadata)
     mk = ''
-    for key, value in meta.values():
+    for key, value in meta.items():
         mk += '%s: %s -' % (key, value)
-    mk = mk[:len(mk-2)]
     skeleton = '''
     <div class="sentence" rel="%d">
         <p>%s</p>
