@@ -80,7 +80,7 @@ def trainer_fetch(request):
     
     meta = json.loads(sentence.metadata)
     mk = ''
-    for key, value in meta.values:
+    for key, value in meta.values():
         mk += '%s: %s -'
     mk = mk[:len(mk-2)]
     skeleton = '''
