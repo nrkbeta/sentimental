@@ -1,3 +1,5 @@
+import json 
+
 from django import http
 from django.conf import settings
 from django.shortcuts import render_to_response
@@ -52,6 +54,10 @@ def project_detail(request, project_id):
     project = Project.objects.get(id=project_id)
     return render_to_response('sentimental/project_detail.html', {'project': project, 'trained': project.sentences.filter(trained=True, classification__isnull=False).count()})
 
+def project_classifications(request, project_id):
+    project = Project.objects.get(id=project_id)
+    return render_to_response('sentimental/project_classifications.html', {'project': project})
+
 def trainer(request, project_id):
     project = Project.objects.get(id=project_id)
     return render_to_response('sentimental/trainer.html', {'project': project})
@@ -71,13 +77,20 @@ def trainer_fetch(request):
     choices = []
     for n, choice in enumerate(project.classifications.all()):
         choices.append('<li><a class="choice_%d" href="#" rel="%d">%s</a></li>' % (n+1, choice.id, choice.name))
+    
+    meta = json.loads(sentence.metadata)
+    mk = ''
+    for key, value in meta.values:
+        mk += '%s: %s -'
+    mk = mk[:len(mk-2)]
     skeleton = '''
     <div class="sentence" rel="%d">
         <p>%s</p>
+        <p class="meta">%s</p>
         <ul>
             %s
             <li><a class="close" href="#" rel="close" title="Next">I don't know</a></li>
         </ul>
     </div>
-    ''' % (sentence.id, sentence.sentence, "\n".join(choices))
+    ''' % (sentence.id, sentence.sentence, mk, "\n".join(choices))
     return http.HttpResponse(skeleton)
