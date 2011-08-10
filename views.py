@@ -88,7 +88,6 @@ def trainer_fetch(request):
         <p class="meta">%s</p>
         <ul>
             %s
-            <li><a class="close" href="#" rel="close" title="Next">I don't know</a></li>
         </ul>
     </div>
     ''' % (sentence.id, sentence.sentence, mk, "\n".join(choices))
