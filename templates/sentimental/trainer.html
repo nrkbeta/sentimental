@@ -162,7 +162,7 @@
                 if ($('.sentence').length == 0) {
                     s = '0';
                 } else {
-                    s = $('.sentence')[$(".sentence").length-1].attr('rel');
+                    s = $($('.sentence')[$(".sentence").length-1]).attr('rel');
                 }
                 $.post('{% url sentimental_trainer_fetch %}', {'project': {{ project.id }}, 'id': s}, function(data) {
                     $("#sentences").append(data);
