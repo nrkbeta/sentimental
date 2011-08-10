@@ -73,7 +73,7 @@ def trainer_register(request):
 @csrf_exempt
 def trainer_fetch(request):
     project = Project.objects.get(id=request.POST.get('project'))
-    sentence = project.sentences.exclude(trained=True, classification__isnull=False).order_by('id')[0]
+    sentence = project.sentences.exclude(trained=True, classification__isnull=False).filter(id__gt=int(request.POST.get('id'))).order_by('id')[0]
     choices = []
     for n, choice in enumerate(project.classifications.all()):
         choices.append('<li><a class="choice_%d" href="#" rel="%d">%s</a></li>' % (n+1, choice.id, choice.name))
