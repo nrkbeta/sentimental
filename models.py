@@ -25,6 +25,9 @@ class Project(models.Model):
     
     def to_classify(self):
         return self.sentences.exclude(trained=True, classification__isnull=False)
+    
+    def is_done(self):
+        return self.to_classify.count() == 0
 
 
 class Sentence(models.Model):
