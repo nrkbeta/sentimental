@@ -181,12 +181,12 @@
                     elm = $('.choice_2');    
                 }
                 if (!(elm == null)) {
-                    sentence = $(elm).parent().parent().attr('rel')
-                    $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': $(elm).attr('rel')}, function(data) {
+                    sentence = $($(elm)[0]).parent().parent().parent().attr('rel')
+                    $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': $($(elm)[0]).attr('rel')}, function(data) {
                         console.log(data);
                         counter++;
                     });
-                    $(elm).parent().parent().remove();
+                    $($(elm)[0]).parent().parent().parent().remove();
                     $(".count").show();
                     $(".counter").html(''+counter);
                 }
