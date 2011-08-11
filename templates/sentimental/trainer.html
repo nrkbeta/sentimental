@@ -181,12 +181,12 @@
                     elm = $('.choice_2');    
                 }
                 if (!(elm == null)) {
-                    sentence = $(elm).parent().parent().parent().attr('rel')
+                    sentence = $(elm).parent().parent().parent().parent().attr('rel')
                     $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': $(elm).attr('rel')}, function(data) {
                         console.log(data);
                         counter++;
                     });
-                    $(elm).parent().parent().parent().remove();
+                    $(elm).parent().parent().parent().parent().remove();
                     $(".count").show();
                     $(".counter").html(''+counter);
                 }
