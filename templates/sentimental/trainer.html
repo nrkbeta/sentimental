@@ -172,6 +172,26 @@
             setInterval(loadData, 4000);
             loadData();
             
+            $(document).keypress(function(event) {
+                var elm = null;
+                if (event.charCode == 97) {
+                    elm = $('.choice_1');
+                }
+                if (event.charCode == 115) {
+                    elm = $('.choice_2');    
+                }
+                if (!(elm == null)) {
+                    sentence = $(elm).parent().parent().parent().attr('rel')
+                    $.post('{% url sentimental_trainer_register %}', {'sentence': sentence, 'classification': $(elm).attr('rel')}, function(data) {
+                        console.log(data);
+                        counter++;
+                    });
+                    $(elm).parent().parent().parent().remove();
+                    $(".count").show();
+                    $(".counter").html(''+counter);
+                }
+            });
+            
             $('.sentence a').live('click', function(event) {
                 loadData();
                 event.preventDefault();
